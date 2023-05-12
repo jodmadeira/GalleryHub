@@ -20,7 +20,15 @@ Platform that allows artists and content creators to present their productions, 
 - **Login** - The user sees a container centered in the screen that allows to input email and password fields. The user receives an error message if there is an error filling the form and a success message if the login is successful. After login the name of the user appears next to the profile button on the NavbAr
 - **Logout** - The user clicks on the profile icon and is able to see the buttons profile and logout. When logout is clicked, the user session finnishes and the user name disappears from next to the profile button. The user is redirected to the homepage.
 - **Home page** - The Home page will contain an introductory message explaining the purpose of the website and how both users and creators can interact with it. It will showcase 4 random collections in a carousel. The user can click on one of the shown collections and it will redirect to the collection page.
-- **Collections** - The user will see a list with the collection picture and a short description about the collection. The user can press the open button and be redirected to the collection page.
+- **Collections** - The user will see a list with the collection picture and a short description about the collection. The user can press the open button and be redirected to the collection page. The user will see a add collection button that redirects to the new collection page.
+
+- **Collection-create** - The user sees a form that requires the following information: 
+    1-Collection identification: collection title, coverImgSrc and short description; 
+    2-Collection Items: title, itemSrc, description. The collection needs to have at least one collection Item.
+    The user sees a Create collection button that saves the collection under the user ID. If the user had no previous collections, the isCreator should change from 'false' to 'true'
+
+- **Collection-edit** - The user sees the information of the collection and can change it and save the changes. It is also possible to delete the collection through the delete collection button. The user must see a confirmation message when trying to delete a collection
+
 - **Collection:id page** -The user sees the name of the collection on the top with a button to like/favourite the collection and an "about section" with the following information: creator, short description and # of likes/favourites. Below there is a gallery with the items of the collection. There is an image for each with a title.
 - **Creators** - The user sees a gallery with each creator information. For each creator, the information shown is: name, number of collections, name of most recent collection, # of follows a button to follow the creator, a button to search the creators collections and a contact button. When the user clicks the follow buttons, it increases the follow count in the screen. When the user clicks the collections button, it will go to the collections page, filtered to the creators collections. When the user clicks the contact button, a contect form appears with the fields: Subject, message and send button.
 - **Favourites, Follows** - The Favourites and Follows page will only be accessible if there is a user in session. The favourites page will show a collections page filtered to the users favourites. The follows page will show a creators page filtered to the users follows. 
@@ -39,21 +47,29 @@ Platform that allows artists and content creators to present their productions, 
 
 
 
-| **Method** | **Route**                          | **Description**                                              |**Request - Body**                                          |
+| **Method** | **Route**                          | **Description**                                              |**Request - Body**                                        |
 | ---------- | ---------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
-| `GET`      | `/`                                | Main page route.  Renders home `index` view.                 |                                                          |
-| `GET`      | `/login`                           | Renders `login` form view.                                   |                                                          |
-| `POST`     | `/login`                           | Sends Login form data to the server.                         | { email, password }                                      |
-| `GET`      | `/signup`                          | Renders `signup` form view.                                  |                                                          |
+| `GET`      | `/home`                            | Main page route.  Renders `home`  view.                      | N/A                                                      |
+| `GET`      | `/signup`                          | Renders `signup` form view.                                  | N/A                                                      |
 | `POST`     | `/signup`                          | Sends Sign Up info to the server and creates user in the DB. | {  email, password  }                                    |
-| `GET`      | `/private/edit-profile`            | Private route. Renders `edit-profile` form view.             |                                                          |
-| `PUT`      | `/private/edit-profile`            | Private route. Sends edit-profile info to server and updates user in DB. | { email, password, [firstName], [lastName], [imageUrl] } |
-| `GET`      | `/private/favorites`               | Private route. Render the `favorites` view.                  |                                                          |
-| `POST`     | `/private/favorites/`              | Private route. Adds a new favorite for the current user.     | { name, cuisine, city, }                                 |
-| `DELETE`   | `/private/favorites/:restaurantId` | Private route. Deletes the existing favorite from the current user. |                                                        |
-| `GET`      | `/restaurants`                     | Renders `restaurant-list` view.                              |                                                          |
-| `GET`      | `/restaurants/details/:id`         | Renders `restaurant-details` view for the particular restaurant. |                                                          |
-
+| `GET`      | `/login`                           | Renders `login` form view.                                   | N/A                                                      |
+| `POST`     | `/login`                           | Sends Login form data to the server.                         | { email, password }                                      |
+| `POST`     | `/logout`                          | Sends Logout request to the server.                          | N/A                                                      |
+| `GET`      | `/private/edit-profile`            | Private route. Renders `edit-profile` form view.             | {name, email, password}                                  |
+| `PUT`      | `/private/edit-profile`            | Private route. Sends edit-profile info to server and updates user in DB. | { name, email, password }                    |
+| `GET`      | `/private/favorites`               | Private route. Render the `favorites` view.                  | {userId, [collectionID]}                                 |
+| `POST`     | `/private/favorites`               | Private route. Adds a new favorite for the current user.     | {userId, [collectionID]}                                 |
+| `DELETE`   | `/private/favorites/:collectionId` | Private route. Deletes the existing favorite from the current user. | {userId, [collectionID]}                          |
+| `GET`      | `/private/follows`                 | Private route. Render the `follows` view.                    | {userId, follows: [UserId]}                              |
+| `POST`     | `/private/follows`                 | Private route. Adds a new follows for the current user.      | {userId, follows: [UserId]}                              |
+| `DELETE`   | `/private/follows/:userId`         | Private route. Deletes the existing follows from the current user. | {userId, follows: [UserId]}                        |
+| `GET`      | `/creators`                        | Renders `creators-list` view.                                | {isCreator:true, User Model, Collection Model}           |
+| `GET`      | `/creator/details/:id`             | Renders `creator-details` view for each creator.             | {isCreator:true, User Model, Collection Model}           |
+| `GET`      | `/collections`                     | Renders `collections-list` view.                             | Collection Model                                         |
+| `GET`      | `/collections/details/:id`         | Renders `collections-details` view for each collection.      | Collection Model                                         |
+| `POST`     | `/collections/create`              | Renders `collections-create` view.                           | N/A                                                      |
+| `PUT`      | `/collections/edit`                | Renders `collections-edit` view.                             | {Collection Model, Collection Items Model}               |
+| `DELETE`   | `/collections/delete/:id`          | Renders `collections-details` view for each collection.      | {isCreator:true, User Model, Collection Model}           |
 
 
 
@@ -66,6 +82,7 @@ User model
 
 ```javascript
 {
+  id: String,
   name: String,
   email: String,
   password: String,
@@ -83,6 +100,7 @@ Collection model
 
 ```javascript
 {
+  id: String,
   title: String,
   coverImgSrc: String,
   shortDescription: String,
@@ -97,23 +115,37 @@ Collection Item model
 
 ```javascript
 {
-  itemSrc: String,
+  id: String,
   title: String,
+  itemSrc: String,
   description: String
   
 }
 
 ```
-Messages model
+Messages model (Bonus)
 
 ```javascript
 {
+  id: String,
   userId: String,
   creatorId: String,
   messageBody: String,
   sendDate: Date
 }
 ```
+Reviews model (Bonus)
+
+```javascript
+{
+  id: String,
+  userId: String,
+  creatorId: String,
+  messageBody: String,
+  sendDate: Date
+}
+```
+
 
 <br>
 

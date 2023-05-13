@@ -86,12 +86,11 @@ User model
   name: String,
   email: String,
   password: String,
-  creator:{
-    isCreator:Boolean,
-    collectionId:[CollectionId]
-  },
-  favourites: [FavoriteId],
-  follows: [UserId]
+  isCreator:Boolean,
+  ownedCollections:[CollectionId]
+  follows: [userId], //The user follows
+  favourites: [collectionsId],
+  following: [userId] //The user is followed by other users
   }
 
 ```
@@ -104,8 +103,8 @@ Collection model
   title: String,
   coverImgSrc: String,
   shortDescription: String,
-  favourites: [CollectionId],
-  follows: [UserId],
+  collectionItems:[itemID],
+  favourites:[userId],
   dateCreated: Date
   }
 
@@ -171,9 +170,9 @@ Bootstrap
 
 ### Git
 
-[Repository Link]()
+[Repository Link](https://github.com/jodmadeira/GalleryHub)
 
-[Deploy Link]()
+<!-- [Deploy Link]() -->
 
 <br>
 

@@ -1,0 +1,26 @@
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>{{appTitle}}</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+
+  <body>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/collections">Collections</a>
+      <a href="/creators">Creators</a>
+      <a href="/favourites">Favourites</a>
+      <a href="/follows">Follows</a>
+      <a href="/profile">Profile</a> {{!-- turn into a button that opens a side menu with the buttons login/signup if there is no user in sesssion or profile and logout  --}}
+    </nav>
+
+    {{{body}}}
+
+    <script src="/js/script.js"></script>
+  </body>
+
+</html>

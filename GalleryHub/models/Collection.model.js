@@ -11,7 +11,7 @@ const collectionSchema = new Schema(
       required: true,
     },
     coverImgSrc: {
-      type: URL,
+      type: String,
     },
 
     shortDescription: {

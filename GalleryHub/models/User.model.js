@@ -17,8 +17,11 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
+    },
+    id:{
+      type:String
     },  
-    isCreater: {
+    isCreator: {
       type: Boolean,
     },
     ownedCollections: {
@@ -36,10 +39,8 @@ const userSchema = new Schema(
     bio:{
         type: String
     }
-    
   },
-  {
-    // this second object adds extra properties: `createdAt` and `updatedAt`
+  { // this second object adds extra properties: `createdAt` and `updatedAt`
     timestamps: true,
   }
 );

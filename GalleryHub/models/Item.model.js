@@ -1,20 +1,23 @@
 const { Schema, model } = require("mongoose");
 
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
-const collectionSchema = new Schema(
+const itemSchema = new Schema(
   {
      collectionId:{
         type:String,
+    },
+    id:{
+      type:String,
     },
     title: {
       type: String,
       required: true,
     },
-    imgSrc: {
-      type: URL,
+    itemSrc: {
+      type: String,
       required: true
     },
-    shortDescription: {
+    description: {
       type: String,
       required: true,
     }
@@ -25,6 +28,6 @@ const collectionSchema = new Schema(
   }
 );
 
-const Collection = model("Collection", collectionSchema);
+const Item = model("Item", itemSchema);
 
-module.exports = Collection;
+module.exports = Item;

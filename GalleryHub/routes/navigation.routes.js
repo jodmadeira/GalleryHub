@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
+//Require models
+const User = require("../models/User.model");
+const Collection = require("../models/Collection.model");
+const Item = require("../models/Item.model");
+
+
+
 // GET /navigations/collections
 router.get("/collections", (req, res) => {
   res.render("navigation/collections");

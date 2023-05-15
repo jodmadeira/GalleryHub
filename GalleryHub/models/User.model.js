@@ -18,6 +18,21 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },  
+    isCreater: {
+      type: Boolean,
+    },
+    ownedCollections: {
+      type: Array,
+    },
+    follows: {
+      type: Array,
+    },
+    favourites: {
+      type: Array,
+    },
+    following: {
+      type: Array,
+    },
     bio:{
         type: String
     }

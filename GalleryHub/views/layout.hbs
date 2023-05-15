@@ -5,22 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>{{appTitle}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
 
   <body>
     <nav>
-      <a href="/">Home</a>
-      <a href="/collections">Collections</a>
-      <a href="/creators">Creators</a>
-      <a href="/favourites">Favourites</a>
-      <a href="/follows">Follows</a>
-      <a href="/profile">Profile</a> {{!-- turn into a button that opens a side menu with the buttons login/signup if there is no user in sesssion or profile and logout  --}}
+      <div>
+        <a href="/">Home</a>
+        <a href="/collections">Collections</a>
+        <a href="/creators">Creators</a>
+        <a href="/favourites">Favourites</a>
+        <a href="/follows">Follows</a>
+      </div>  
+    
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Profile🎭
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/auth/login">Login</a></li>
+          <li><a class="dropdown-item" href="/auth/signup">Sign Up</a></li>
+        </ul>
+      </div>
     </nav>
 
     {{{body}}}
 
     <script src="/js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
   </body>
 
 </html>

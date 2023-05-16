@@ -1,10 +1,14 @@
-
-    <label>Name: {{user.name}}</label>
-    <label>Email: {{user.email}}"</label>
-    <label>Password: ********</label>
-    <label>Bio: {{user.bio}}</label>
-    <label>Collections: {{user.ownedCollections}}</label>
-    <br><br>
-<a href="/profile/update">Edit</a>
-
-</form>
+<div class="profileInfo">
+    <div class="userProfile">
+        <div class='infoBox'>
+            <img src="{{user.imgSrc}}" alt="profile-pic">
+            <label>Name: {{user.name}}</label>
+            <label>Email: {{user.email}}"</label>
+            <label>Password: ********</label>
+            <label>Bio: {{user.bio}}</label>
+            <label>Collections: {{user.ownedCollections}}</label>
+        </div>
+        
+    <a class='edit-btn' href="/profile/update">Edit</a>
+    </div>
+</div>

@@ -18,8 +18,8 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-      imgSrc:{
-      type: String,
+    imgSrc:{
+    type: String,
     },
     id:{
       type:String

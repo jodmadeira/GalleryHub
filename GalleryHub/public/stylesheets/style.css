@@ -66,3 +66,53 @@ h1 {
   background-color: white;
   font-family: blippo;
 }
+
+
+/*-------------------------- User Profile Pages ---------------------------*/
+.profileInfo{
+  display: flex;
+  justify-content: center;
+  
+  margin-top: 30px;
+}
+.userProfile{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+
+  padding: 10px 20px;
+  margin: 0;
+  
+
+  background-color: rgb(75, 74, 72);
+  border: 2px solid rgb(26, 26, 99);
+  border-radius: 5px;
+}
+
+.infoBox{
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content: end;
+  color: white;
+
+  font-family: monospace;
+
+  padding: 10px 0;
+  margin:0;
+}
+.edit-btn{
+  color: white;
+  text-decoration: none;
+  font-family: Blippo;
+  text-align: center;
+
+  background-color: rgb(26, 26, 99);
+  border-radius: 5px;
+  border: 2px solid white;
+
+
+  margin: 10px 20px;
+  padding: 5px 10px;
+}

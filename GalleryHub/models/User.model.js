@@ -18,6 +18,9 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+      imgSrc:{
+      type: String,
+    },
     id:{
       type:String
     },  
@@ -37,7 +40,7 @@ const userSchema = new Schema(
       type: Array,
     },
     bio:{
-        type: String
+        type: String,
     }
   },
   { // this second object adds extra properties: `createdAt` and `updatedAt`

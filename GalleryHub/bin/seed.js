@@ -150,8 +150,8 @@ async function seeds() {
         console.log(`Connected to: ${x.connections[0].name}`);
     
         const createdUsers = await User.create(users);
-        //const createdCollections = await Collection.create(collections);
-        //const createdItems = await Item.create(items);
+        const createdCollections = await Collection.create(collections);
+        const createdItems = await Item.create(items);
 
     
         console.log(`Successfuly created ${createdUsers.length} users`);

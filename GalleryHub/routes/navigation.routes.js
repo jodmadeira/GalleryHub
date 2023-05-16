@@ -5,8 +5,7 @@ const router = express.Router();
 const User = require("../models/User.model");
 const Collection = require("../models/Collection.model");
 const Item = require("../models/Item.model");
-
-
+const fileUploader = require('../config/cloudinary.config.js');
 
 // GET /navigations/collections
 router.get('/collections', async (req, res) => {
@@ -17,6 +16,30 @@ router.get('/collections', async (req, res) => {
     console.log(error);
     res.status(500).send('Internal Server Error');
   }
+});
+
+// GET new collection
+router.get('/create', (req,res)=>{
+  console.log('there')
+    res.render('navigation/collectionscreate');
+});
+
+// POST new collection
+router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
+    const {title, shortDescription} = req.body;
+  console.log('here')
+    async function createCollectionInDb(){
+        try{
+            await Collection.create({title, shortDescription, coverImgSrc: req.file.path});
+            console.log('Collection created successfully');
+            res.redirect('/collections');
+        } 
+        catch(error){
+            console.log(error);
+        }
+    }
+
+    createCollectionInDb();
 });
 
 // GET /collections by creator ID
@@ -71,6 +94,32 @@ router.get('/items/:id', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
+// GET new Item
+router.get('/create/item', (req,res)=>{
+  console.log('there')
+    res.render('navigation/itemscreate');
+});
+
+// POST new Item
+router.post('/create/item', fileUploader.single('item-image'),(req,res)=>{
+    const {title, description} = req.body;
+  console.log('here')
+    async function createItemInDb(){
+        try{
+            await User.create({title, description, itemSrc: req.file.path});
+            console.log('Items created successfully');
+            res.redirect('/items');
+        } 
+        catch(error){
+            console.log(error);
+        }
+    }
+
+    createItemInDb();
+});
+
 
 
 // GET /navigation/favourites

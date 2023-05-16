@@ -1,26 +1,19 @@
-<div class="card">
-  <img src="/images/movie1Nicolas.jpg" class="card-img-top" alt="movie1">
-
-  <div class="card-body">
-    <h5 class="card-title">The Unbearable Weight of Massive Talent</h5>
-    <p class="card-text">A movie about Nicolas Cage being Nicolas Cage</p>
-    <a href="#" class="btn btn-primary">Details</a>
-  </div>
+<h1>COLLECTIONS</h1>
+<hr>
+<div class="row">
+  {{#each collections}}
+    <div class="col-md-4 mb-5">
+      <div class="card" style="width: 18rem;">
+        <img src="{{this.coverImgSrc}}" class="card-img-top" alt="{{this.title}}">
+        <div class="card-body">
+          <h5 class="card-title">{{this.title}}</h5>
+          <p class="card-text">{{this.shortDescription}}</p>
+          <a href="#" class="btn btn-primary">More</a>
+        </div>
+      </div>
+    </div>
+  {{else}}
+    <p>There are no collections yet!</p>
+  {{/each}}
+  <hr />
 </div>
-
-{{!-- <div class="card" aria-hidden="true">
-  <img src="..." class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title placeholder-glow">
-      <span class="placeholder col-6"></span>
-    </h5>
-    <p class="card-text placeholder-glow">
-      <span class="placeholder col-7"></span>
-      <span class="placeholder col-4"></span>
-      <span class="placeholder col-4"></span>
-      <span class="placeholder col-6"></span>
-      <span class="placeholder col-8"></span>
-    </p>
-    <a class="btn btn-primary disabled placeholder col-6"></a>
-  </div>
-</div> --}}

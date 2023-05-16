@@ -9,14 +9,26 @@ const Item = require("../models/Item.model");
 
 
 // GET /navigations/collections
-router.get("/collections", (req, res) => {
-  res.render("navigation/collections");
+router.get('/collections', async (req, res) => {
+  try {
+    const foundCollections = await Collection.find();
+    res.render('navigation/collections', { collections: foundCollections });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
+
 // GET /navigation/creators
-router.get("/creators", (req, res) => {
-    console.log('here')
-  res.render("navigation/creators");
+router.get('/creators', async (req, res) => {
+  try {
+    const foundCreators = await User.find();
+    res.render('navigation/creators', { creators: foundCreators });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Internal Server Error');
+  }
 });
 
 

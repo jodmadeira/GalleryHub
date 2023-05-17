@@ -9,13 +9,13 @@
           <h5 class="card-name">{{title}}</h5>
           <p class="card-text">{{description}}</p>
           <form action="/delete/item/{{_id}}" method="post">
-          <button type="submit">Delete Item</button></form>
+          <button type="submit" class="btn btn-primary">Delete Item</button></form>
         </div>
       </div>
     </div>
   {{else}}
     <p>There are no items yet!</p>
   {{/each}}
-  <a href="/create/item/{{collection._id}}">Create New Item</a>
+  <a href="/create/item/{{collection._id}}" class="btn btn-primary">Create New Item</a>
   <hr />
 </div>

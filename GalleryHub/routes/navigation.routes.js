@@ -46,6 +46,66 @@ router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
     createCollectionInDb();
 });
 
+// POST route to delete an collection from the database
+
+router.post('/delete/collection/:id', (req, res) => {
+  const {id} = req.params
+async function deleteCollection(){
+  try {
+    //Find Items Ids that belong to the collection and user for loop to delete them
+    const collection = await Collection.findById(id);
+    const itemsId = collection.collectionItems;
+    for(let i=0;i<itemsId.length;i++){
+      await Item.findByIdAndDelete(itemsId[i])
+    };
+    // Delete collection after respective items have been deleted
+    const deletedCollection = await Collection.findByIdAndDelete(id);
+    if (!deletedCollection) {
+      res.status(404).send('Collection not found');
+      return;
+    }
+
+    console.log(`Collection ${id} deleted`);
+    res.redirect("/collections");
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error');
+  }
+}
+deleteCollection();
+});
+
+// GET route to display the form for updating a specific collection
+router.get("/edit/collection/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const collection = await Collection.findById(id);
+    console.log('collection',collection);
+    res.render("edit/collection", { collection });
+  } catch (error) {
+    console.log(error);
+    res.redirect('/collection');
+  }
+});
+
+// POST route to actually update a specific collection
+router.post('/edit/collection/:id', async (req, res)=>{
+    const id = req.params.id;
+    console.log(id);
+    const {title, shortDescription, coverImgSrc} = req.body;
+
+    try {
+        const updatedCollection = await Collection.findByIdAndUpdate(id, {title, shortDescription, coverImgSrc}, {new: true});
+        console.log(updatedCollection);
+        res.redirect(`/collection/${id}`);
+    } catch(error) {
+        console.log(error);
+        res.redirect(`/collection/${id}`);
+    }
+});
+
+
 // GET /collections by creator ID
 router.get('/collections/:id', async (req, res) => {
   const {id} = req.params;

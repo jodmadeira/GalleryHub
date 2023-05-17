@@ -5,7 +5,7 @@ const mongoose = require('mongoose')
 //Connect to the Database
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/GalleryHub";
 
-// Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
+// Require necessary (isLoggedOut and isLoggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
@@ -22,17 +22,17 @@ router.get("/profile", isLoggedIn,(req, res) => {
             const userId = req.session.currentUser._id
             const user = await User.findById(userId)
             const userCollectionsId = user.ownedCollections
-            if(userCollectionsId==undefined){
-                let collectionTitles=['No collections yet']
+            if(!userCollectionsId.length){
+                let collectionTitles=['No collections yet'];
                 res.render("user/userProfile", {user, collectionTitles});
             }
             else{
-            let collectionTitles=[];
-            for(let i=0;i<userCollectionsId.length;i++){
-                let collection = await Collection.findById(userCollectionsId[i])
-                collectionTitles.push(collection.title)
-            }
-            res.render("user/userProfile", {user, collectionTitles});
+                let collectionTitles=[];
+                for(let i=0;i<userCollectionsId.length;i++){
+                    let collection = await Collection.findById(userCollectionsId[i])
+                    collectionTitles.push(` ${collection.title}`)
+                }
+                res.render("user/userProfile", {user, collectionTitles});
             }
         }
         catch(error){
@@ -65,8 +65,15 @@ router.post("/profile/update", fileUploader.single('imgSrc') ,(req, res) => {
 
     async function updateUser() {
     try {
+        if(!req.file){
+            const imgSrc = await User.findById(userId).imgSrc
+            console.log('here')
+            const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc, bio})
+        }
+        else{
+            console.log('there')
         const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc:req.file.path, bio})
-        
+        }   
         res.redirect('/profile')       
     } catch (error) {
         console.log(error)        

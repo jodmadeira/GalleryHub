@@ -64,20 +64,18 @@ router.post("/profile/update", fileUploader.single('imgSrc') ,(req, res) => {
     const {name, email, bio} = req.body
 
     async function updateUser() {
-    try {
-        if(!req.file){
-            const imgSrc = await User.findById(userId).imgSrc
-            console.log('here')
-            const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc, bio})
+        try {
+            if(!req.file){
+                const imgSrc = await User.findById(userId).imgSrc
+                const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc, bio})
+            }
+            else{
+                const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc:req.file.path, bio})
+            }   
+            res.redirect('/profile')       
+        } catch (error) {
+            console.log(error)        
         }
-        else{
-            console.log('there')
-        const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc:req.file.path, bio})
-        }   
-        res.redirect('/profile')       
-    } catch (error) {
-        console.log(error)        
-    }
     };
     updateUser();
 })

@@ -22,14 +22,19 @@ a {
   color: #fff;
   text-align: center;
 }
+/* Ironhack2023mongodb
+ironhacker1
+8R8f7fONK7eekHmS
 
+mongodb+srv://ironhacker1:8R8f7fONK7eekHmS@galleryhubdb.lfzsjcn.mongodb.net/?retryWrites=true&w=majority*/
 .firstpage {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items:baseline;
   justify-content: center;
   width: 100%;
   height: 70vh;
+  padding: 20vh 10%;
 }
 
 h1 {

@@ -1,18 +1,21 @@
 <h1>{{title}}</h1>
 <hr>
 <div class="row">
-  {{#each items}}
+  {{#each collection.collectionItems}}
     <div class="col-md-4 mb-5">
       <div class="card" style="width: 18rem;">
-        <img src="{{this.itemSrc}}" class="card-img-top" >
+        <img src="{{itemSrc}}" class="card-img-top" >
         <div class="card-body">
-          <h5 class="card-name">{{this.title}}</h5>
-          <p class="card-text">{{this.description}}</p>
+          <h5 class="card-name">{{title}}</h5>
+          <p class="card-text">{{description}}</p>
+          <form action="/delete/item/{{_id}}" method="post">
+          <button type="submit">Delete Item</button></form>
         </div>
       </div>
     </div>
   {{else}}
     <p>There are no items yet!</p>
   {{/each}}
+  <a href="/create/item/{{collection._id}}">Create New Item</a>
   <hr />
 </div>

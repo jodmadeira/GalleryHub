@@ -15,50 +15,46 @@ const users = [
         name: 'Nicolas Cage',
         email: 'nicolas@cage.com',
         password: 'Username1!',
-        id:'Nicolas#0001',
         isCreator:true,
         bio: 'Most successful actor of our lifetime',
         imgSrc: 'https://th.bing.com/th/id/R.15efd14af5178d109451151b22a9fb2c?rik=ATqM1tdEzdMQEQ&riu=http%3a%2f%2flistabuzz.com%2fwp-content%2fuploads%2f2015%2f09%2fnicolas-cage-con-air-1024x545.png&ehk=XnY7lYmI2jxtLfy%2fwz%2bCEti9lJ%2bLS%2bnCBkICanZ7op0%3d&risl=&pid=ImgRaw&r=0',
-        ownedCollections:['Coll#0001','Coll#0003'],
+        ownedCollections:[],
         follows: [], //The user follows
-        favourites: ['Coll#0002'],
-        following: ['Joao#0002',] 
+        favourites: [],
+        following: [] 
     },
     {
         name: 'Joao Madeira',
         email: 'joao@madeira.com',
         password: 'Username1!',
-        id:'Joao#0002',
         isCreator:false,
         bio: 'Ironhack student, climber and gamer',
         ownedCollections:[],
-        follows: ['Nicolas#0001','Joao#0004'], //The user follows
-        favourites: ['Coll#0001','Coll#0002','Coll#0003'],
+        follows: [], //The user follows
+        favourites: [],
         following: [] 
     },
     {
         name: 'Bernardo Melo',
         email: 'bernardo@melo.com',
         password: 'Username1!',
-        id:'Bernardo#0003',
         isCreator:false,
         bio: 'Ironhack teacher, dev God and cinema guru',
         ownedCollections:[],
-        follows: ['Joao#0004'], //The user follows
-        favourites: ['Coll#0001'],
+        follows: [], //The user follows
+        favourites: [],
         following: [] 
     },
     {
         name: 'Joao Gonçalves',
         email: 'joao@goncalves.com',
         password: 'Username1!',
-        id:'Joao#0004',
         isCreator:true,
         bio: 'Tesla car designer, gaming tattoos collector',
-        ownedCollections:['Coll#0002'],
+        ownedCollections:[],
         follows: [], //The user follows
         favourites: [],
-        following: ['Bernardo#0003', 'Joao#0002'] 
+        following: [] 
     }];
 
 const collections = [

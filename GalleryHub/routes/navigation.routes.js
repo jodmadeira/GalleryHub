@@ -27,10 +27,14 @@ router.get('/create', (req,res)=>{
 // POST new collection
 router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
     const {title, shortDescription} = req.body;
+    const currentUser = req.session.currentUser._id
   console.log('here')
     async function createCollectionInDb(){
         try{
-            await Collection.create({title, shortDescription, coverImgSrc: req.file.path});
+           const newCollection = await Collection.create({title, shortDescription, coverImgSrc: req.file.path});
+            await Collection.findByIdAndUpdate(newCollection._id, { $push: {ownerId: currentUser}})
+            await User.findByIdAndUpdate(currentUser, {isCreator: true})
+            await User.findByIdAndUpdate(currentUser, {$push: {ownedCollections: newCollection._id}})
             console.log('Collection created successfully');
             res.redirect('/collections');
         } 
@@ -79,45 +83,73 @@ router.get('/items/:id', async (req, res) => {
   const {id} = req.params;
   //console.log(id);
   try {
-    const collection = await Collection.findById(id);
-    //console.log(collection);
-    let collectionItems = collection.collectionItems;
-    let foundItems = [];
-    for (const item of collectionItems) {
-      let foundItem = await Item.find({id: item});
-      foundItems.push(foundItem[0]);
-    }
-    console.log(foundItems);
-    res.render('navigation/items', { items: foundItems });
+    const collection = await Collection.findById(id).populate('collectionItems');
+    console.log(collection);
+    res.render('navigation/items', { collection });
   } catch (error) {
     console.log(error);
-    res.status(500).send('Internal Server Error');
   }
 });
 
 
 // GET new Item
-router.get('/create/item', (req,res)=>{
-  console.log('there')
-    res.render('navigation/itemscreate');
+router.get('/create/item/:id', async (req,res)=>{
+  const {id} = req.params
+  try {
+    let collection = await Collection.findById(id)
+     res.render('navigation/itemscreate', {collection});
+  } catch (error) {
+    console.log(error)
+  }
 });
 
 // POST new Item
-router.post('/create/item', fileUploader.single('item-image'),(req,res)=>{
+router.post('/create/item/:id', fileUploader.single('item-image'),(req,res)=>{
     const {title, description} = req.body;
-  console.log('here')
-    async function createItemInDb(){
-        try{
-            await User.create({title, description, itemSrc: req.file.path});
-            console.log('Items created successfully');
-            res.redirect('/items');
-        } 
-        catch(error){
-            console.log(error);
+    const {id} = req.params;
+    if(req.file){
+        async function createItemInDb(){
+            try{
+                const newItem = await Item.create({title, description, itemSrc: req.file.path});
+                await Item.findByIdAndUpdate(newItem._id, { $push: {collectionId: id}})
+                await Collection.findByIdAndUpdate(id, {$push: {collectionItems: newItem._id}})
+                console.log('Items created successfully');
+                res.redirect(`/items/${id}`);
+            } 
+            catch(error){
+                console.log(error);
+            }
         }
+        createItemInDb();
+    } else {
+        console.log('No file was uploaded');
+        res.redirect('/create/item');
+    }
+});
+
+// POST route to delete an item from the database
+
+router.post('/delete/item/:id', (req, res) => {
+  const {id} = req.params
+async function deleteItem(){
+  try {
+    const item = await Item.findById(id);
+    const collectionId = item.collectionId
+    
+    const deletedItem = await Item.findByIdAndDelete(id);
+    if (!deletedItem) {
+      res.status(404).send('Item not found');
+      return;
     }
 
-    createItemInDb();
+    console.log(`Item ${id} deleted`);
+    res.redirect(`/items/${collectionId}`);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error');
+  }
+}
+deleteItem();
 });
 
 

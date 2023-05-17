@@ -20,25 +20,27 @@ const userSchema = new Schema(
     },
       imgSrc:{
       type: String,
-    },
-    id:{
-      type:String
-    },  
+    }, 
     isCreator: {
       type: Boolean,
+      default: false
     },
-    ownedCollections: {
-      type: Array,
-    },
-    follows: {
-      type: Array,
-    },
-    favourites: {
-      type: Array,
-    },
-    following: {
-      type: Array,
-    },
+    ownedCollections: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Collection'
+    }],
+    follows: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    favourites: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Collection'
+    }],
+    following: [{
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    }],
     bio:{
         type: String,
     }

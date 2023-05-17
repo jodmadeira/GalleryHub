@@ -3,10 +3,10 @@ const { Schema, model } = require("mongoose");
 // TODO: Please make sure you edit the User model to whatever makes sense in this case
 const collectionSchema = new Schema(
   {
-    ownerId: [{
+    ownerId: {
       type: Schema.Types.ObjectId,
       ref: 'User'
-    }],
+    },
     title: {
       type: String,
       required: true,

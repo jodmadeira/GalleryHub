@@ -11,7 +11,11 @@ const fileUploader = require('../config/cloudinary.config.js');
 router.get('/collections', async (req, res) => {
   try {
     const foundCollections = await Collection.find();
-    res.render('navigation/collections', { collections: foundCollections });
+    if (req.session.currentUser){
+      res.render('navigation/collections', {user: req.session.currentUser, collections: foundCollections });
+    }else{
+            res.render('navigation/collections', { collections: foundCollections });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');
@@ -31,8 +35,8 @@ router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
   console.log('here')
     async function createCollectionInDb(){
         try{
-           const newCollection = await Collection.create({title, shortDescription, coverImgSrc: req.file.path});
-            await Collection.findByIdAndUpdate(newCollection._id, { $push: {ownerId: currentUser}})
+           const newCollection = await Collection.create({title, shortDescription, coverImgSrc: req.file.path, ownerId:currentUser });
+/*             await Collection.findByIdAndUpdate(newCollection._id, { $push: {ownerId: currentUser}}) */
             await User.findByIdAndUpdate(currentUser, {isCreator: true})
             await User.findByIdAndUpdate(currentUser, {$push: {ownedCollections: newCollection._id}})
             console.log('Collection created successfully');
@@ -82,7 +86,7 @@ router.get("/edit/collection/:id", async (req, res) => {
   try {
     const collection = await Collection.findById(id);
     console.log('collection',collection);
-    res.render("edit/collection", { collection });
+    res.render("navigation/collectionsedit", { collection });
   } catch (error) {
     console.log(error);
     res.redirect('/collection');
@@ -92,7 +96,7 @@ router.get("/edit/collection/:id", async (req, res) => {
 // POST route to actually update a specific collection
 router.post('/edit/collection/:id', async (req, res)=>{
     const id = req.params.id;
-    console.log(id);
+    
     const {title, shortDescription, coverImgSrc} = req.body;
 
     try {

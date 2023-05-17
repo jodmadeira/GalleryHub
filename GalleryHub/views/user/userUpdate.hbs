@@ -1,12 +1,18 @@
 <h2>User Update</h2>
 <div class="profileInfo">
     <div class="userProfile">
-        <form class='infoBox' action="/profile/update" method="post">
-            <label>Name: </label><input type="text" name="name" placeholder="{{user.name}}">
-            <label>Email: </label><input type="email" name="email" placeholder="{{user.email}}">
-            <label>Password: </label><input type="password" name="password" placeholder="********">
-            <label>Bio: </label><input type="textarea" name="bio" placeholder="{{user.bio}}">
-            <label>Image: </label><input type="file" name="imgSrc">
+        <form class='infoBox' action="/profile/update" method="post"  enctype="multipart/form-data">
+            <label>Name: </label>
+                <input type="text" name="name" value="{{user.name}}">
+            <label>Email: </label>
+                <input type="email" name="email" value="{{user.email}}">
+            <label>Password: </label>
+                <input type="password" name="password" value="********">
+            <label>Bio: </label>
+                <input type="textarea" name="bio" value="{{user.bio}}">
+            <label>Image: </label>
+                <input type="file" name="imgSrc" value="{{user.imgSrc}}">
+
             <button class='edit-btn' type="submit">Save Changes</button>
         </form>
     </div>

@@ -5,34 +5,29 @@ const mongoose = require('mongoose')
 //Connect to the Database
 const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/GalleryHub";
 
+// Require necessary (isLoggedOut and isLiggedIn) middleware in order to control access to specific routes
+const isLoggedOut = require("../middleware/isLoggedOut");
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 const User = require("../models/User.model");
+const fileUploader = require('../config/cloudinary.config.js');
+
 
 // GET /profile/
-router.get("/profile", (req, res) => {
-    const userId = req.session.currentUser._id
+router.get("/profile", isLoggedOut,(req, res) => {
     
-    
-    console.log({userId});
-     
-    //console.log(userId);
-    //console.log('REQ.PARAMS',req.params);
-    //console.log('req.session',req.session);
     async function getUserDetails (){
         try {
+            const userId = req.session.currentUser._id
             const user = await User.findById(userId)
-            console.log('user',user)
             res.render("user/userProfile", {user});
         }
         catch(error){
             console.log(error);
             res.redirect('/auth/signup')
         }
-
     }
     getUserDetails();
-    
-  
 });
 
 
@@ -43,7 +38,7 @@ router.get("/profile/update", (req, res) => {
     async function getUserDetails (){
         try {
             const user = await User.findById(userId)
-            //console.log('user',user)
+            console.log('user',user)
             res.render("user/userUpdate", {user});
         }
         catch(error){
@@ -52,12 +47,16 @@ router.get("/profile/update", (req, res) => {
     getUserDetails();
 })
 
-router.post("/profile/update", (req, res) => {
-    
+router.post("/profile/update", fileUploader.single('imgSrc') ,(req, res) => {
+    const userId = req.session.currentUser._id
+    const {name, email, bio} = req.body
+    console.log(req.file);
+
     async function updateUser() {
     try {
-        const updateUser = await User.findByIdAndUpdate()
-        
+        console.log(userId)
+        const updateUserInfo = await User.findByIdAndUpdate(userId,{name, email, imgSrc:req.file.path, bio})
+        console.log(updateUserInfo)
         res.redirect('/profile')       
     } catch (error) {
         console.log(error)        

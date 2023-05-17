@@ -56,8 +56,9 @@ router.post("/profile/update", (req, res) => {
     
     async function updateUser() {
     try {
+        const updateUser = await User.findByIdAndUpdate()
         
-        res.redirect('/')       
+        res.redirect('/profile')       
     } catch (error) {
         console.log(error)        
     }

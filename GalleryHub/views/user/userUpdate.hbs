@@ -2,6 +2,7 @@
 <div class="profileInfo">
     <div class="userProfile">
         <form class='infoBox' action="/profile/update" method="post"  enctype="multipart/form-data">
+            <img src="{{user.imgSrc}}">
             <label>Name: </label>
                 <input type="text" name="name" value="{{user.name}}">
             <label>Email: </label>

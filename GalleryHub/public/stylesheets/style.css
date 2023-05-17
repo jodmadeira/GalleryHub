@@ -102,6 +102,10 @@ h1 {
   padding: 10px 0;
   margin:0;
 }
+.infoBox img{
+  width: 200px;
+  height: 250px;
+}
 .edit-btn{
   color: white;
   text-decoration: none;

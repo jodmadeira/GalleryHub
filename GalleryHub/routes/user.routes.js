@@ -22,15 +22,18 @@ router.get("/profile", isLoggedIn,(req, res) => {
             const userId = req.session.currentUser._id
             const user = await User.findById(userId)
             const userCollectionsId = user.ownedCollections
+            if(userCollectionsId==undefined){
+                let collectionTitles=['No collections yet']
+                res.render("user/userProfile", {user, collectionTitles});
+            }
+            else{
             let collectionTitles=[];
             for(let i=0;i<userCollectionsId.length;i++){
-                
                 let collection = await Collection.findById(userCollectionsId[i])
-                
                 collectionTitles.push(collection.title)
-                console.log(collectionTitles)
             }
             res.render("user/userProfile", {user, collectionTitles});
+            }
         }
         catch(error){
             console.log(error);

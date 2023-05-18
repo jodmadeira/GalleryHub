@@ -1,5 +1,10 @@
 <div id="login-form">
-  <h2>Log In</h2>
+  <h3>Log In</h3>
+  <video autoplay muted loop id="background-video">
+     <source src="../video/backgroundvideo.mp4" type="video/mp4">
+</video>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <form action="/auth/login" method="POST">
 
    
@@ -14,7 +19,7 @@
     <br><br>
     <button type="submit">Log In</button>
 
-    <p>If you don't have an account, Signup  <a href="/auth/signup">here</a></p>
+    <p>If you don't have an account, Signup  <a style="color: black;" href="/auth/signup">here</a></p>
 
     {{#if errorMessage}}
       <p class="error">{{errorMessage}}</p>

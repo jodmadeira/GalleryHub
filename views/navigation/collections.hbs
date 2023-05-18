@@ -2,19 +2,26 @@
 <hr>
 <div class="row">
   {{#each collections}}
-    <div class="col-md-4 mb-5">
-      <div class="card" style="width: 18rem;">
+  
+    <div class="col-md-3 mb-4">
+      <div class="card">
+        <form action="/favourites/{{this._id}}" method="post" class="col-5" style="margin:0">
+          <input type="image" src="/images/star.png" alt="Add to Favorites">
+        </form>
         <img src="{{this.coverImgSrc}}" class="card-img-top" alt="{{this.title}}">
         <div class="card-body">
           <h5 class="card-title">{{this.title}}</h5>
           <p class="card-text">{{this.shortDescription}}</p>
-          <a href="/items/{{this._id}}" class="btn btn-primary">More</a><br><br>
+          <div class="row">
+          <a href="/items/{{this._id}}" class="btn btn-primary col-3">More</a>
 
           {{#ifEquals ../user._id ownerId}}
-          <a href="/edit/collection/{{_id}}" class="btn btn-primary">Edit</a><br><br>
-          <form action="/delete/collection/{{_id}}" method="post">
-          <button type="submit" class="btn btn-primary">Delete Collection</button></form>
+          <a href="/edit/collection/{{_id}}" class="btn btn-primary col-3" style="margin-left: 13px;">Edit</a>
+          <form action="/delete/collection/{{_id}}" method="post" class="col-5" style="margin:0">
+          <button type="submit" class="btn btn-primary col-12">Delete</button></form>
+          
           {{/ifEquals}}
+          </div>
         </div>
       </div>
     </div>

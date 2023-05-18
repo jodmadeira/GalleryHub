@@ -1,5 +1,10 @@
-<h2>Create a Item</h2>
+<h2 style="text-align:center">Create a Item</h2>
+<video autoplay muted loop id="background-video">
+     <source src="/video/backgroundvideo.mp4" type="video/mp4">
+</video>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="centertwo">
 <div class="row">
     <div class="col-md-6">
         <form action="/create/item/{{collection._id}}" method="post" enctype="multipart/form-data">
@@ -17,13 +22,13 @@
         </div>
         <div class="form-group">
             <label>
-                Image:
+                
                 <input type="file" name="item-image" class="form-control-file"/>
             </label>
         </div>
         <button type="submit" class="btn btn-primary">Create Item</button>
         </form>
     </div>
-
+</div>
 
 </div>

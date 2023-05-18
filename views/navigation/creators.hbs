@@ -8,10 +8,7 @@
         <div class="card-body">
           <h5 class="card-name">{{this.name}}</h5>
           <p class="card-text">{{this.bio}}</p>
-          <p class="card-text">{{this.ownedCollections}}</p>
-          <p class="card-text">{{this.follows}}</p>
-          <p class="card-text">{{this.favourites}}</p>
-          <p class="card-text">{{this.following}}</p>
+          <p class="card-text">{{this.name}} has {{this.ownedCollections.length}} collections</p>
           <a href="/collections/{{this._id}}" class="btn btn-primary">More</a>
         </div>
       </div>

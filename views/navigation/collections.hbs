@@ -12,9 +12,9 @@
         <div class="card-body">
           <h5 class="card-title">{{this.title}}</h5>
           <p class="card-text">{{this.shortDescription}}</p>
+          <p class="card-text">{{this.favourites.length}} users like this</p>
           <div class="row">
           <a href="/items/{{this._id}}" class="btn btn-primary col-3">More</a>
-
           {{#ifEquals ../user._id ownerId}}
           <a href="/edit/collection/{{_id}}" class="btn btn-primary col-3" style="margin-left: 13px;">Edit</a>
           <form action="/delete/collection/{{_id}}" method="post" class="col-5" style="margin:0">

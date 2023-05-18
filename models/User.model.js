@@ -18,7 +18,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-      imgSrc:{
+    imgSrc:{
       type: String,
     }, 
     isCreator: {

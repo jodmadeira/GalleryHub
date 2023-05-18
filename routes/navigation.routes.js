@@ -14,7 +14,7 @@ router.get('/collections', async (req, res) => {
     if (req.session.currentUser){
       res.render('navigation/collections', {user: req.session.currentUser, collections: foundCollections });
     }else{
-            res.render('navigation/collections', { collections: foundCollections });
+      res.render('navigation/collections', { collections: foundCollections });
     }
   } catch (error) {
     console.log(error);
@@ -24,7 +24,6 @@ router.get('/collections', async (req, res) => {
 
 // GET new collection
 router.get('/create', (req,res)=>{
-  console.log('there')
     res.render('navigation/collectionscreate');
 });
 
@@ -32,7 +31,6 @@ router.get('/create', (req,res)=>{
 router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
     const {title, shortDescription} = req.body;
     const currentUser = req.session.currentUser._id
-  console.log('here')
     async function createCollectionInDb(){
         try{
            const newCollection = await Collection.create({title, shortDescription, coverImgSrc: req.file.path, ownerId:currentUser });
@@ -65,17 +63,16 @@ async function deleteCollection(){
     for(let i=0;i<itemsId.length;i++){
       await Item.findByIdAndDelete(itemsId[i])
     };
+   
     // Delete collection after respective items have been deleted
     const deletedCollection = await Collection.findByIdAndDelete(id);
+    
     // Delete collection ID from user ownedCollections array
     let user = await User.findById(userId);
-        console.log('user before update',user);
     const userCollections = user.ownedCollections;
-        console.log('Before splice',userCollections);
     userCollections.splice(userCollections.indexOf(id),1);
-        console.log('After splice',userCollections);
     user = await User.findByIdAndUpdate(userId, {ownedCollections: userCollections});
-        console.log('user after update',user);
+    
     // Now we'll check if there are collections remaining for the Creator. If not, we'll change the isCreator to FALSE
     user = await User.findById(userId);
     const currentCollections = user.ownedCollections
@@ -87,7 +84,6 @@ async function deleteCollection(){
       res.status(404).send('Collection not found');
       return;
     }
-
     console.log(`Collection ${id} deleted`);
     res.redirect("/collections");
   } catch (error) {
@@ -104,7 +100,6 @@ router.get("/edit/collection/:id", async (req, res) => {
 
   try {
     const collection = await Collection.findById(id);
-    console.log('collection',collection);
     res.render("navigation/collectionsedit", { collection });
   } catch (error) {
     console.log(error);
@@ -115,12 +110,10 @@ router.get("/edit/collection/:id", async (req, res) => {
 // POST route to actually update a specific collection
 router.post('/edit/collection/:id', async (req, res)=>{
     const id = req.params.id;
-    
     const {title, shortDescription, coverImgSrc} = req.body;
 
     try {
         const updatedCollection = await Collection.findByIdAndUpdate(id, {title, shortDescription, coverImgSrc}, {new: true});
-        console.log(updatedCollection);
         res.redirect(`/collection/${id}`);
     } catch(error) {
         console.log(error);
@@ -137,12 +130,9 @@ router.get('/collections/:id', async (req, res) => {
     let ownedCollections = creator.ownedCollections;
     let foundCollections = [];
     for (const collection of ownedCollections) {
-
       let foundCollection = await Collection.find({_id: collection});
-      console.log(foundCollection);
       foundCollections.push(foundCollection[0]);
     }
-    console.log(foundCollections);
     res.render('navigation/collections', { collections: foundCollections });
   } catch (error) {
     console.log(error);
@@ -154,7 +144,35 @@ router.get('/collections/:id', async (req, res) => {
 router.get('/creators', async (req, res) => {
   try {
     const foundCreators = await User.find({isCreator:true});
-    res.render('navigation/creators', { creators: foundCreators });
+    let updatedCreators =[];
+   
+    for (const creator of foundCreators) {
+      try {
+        let creatorCollections = creator.ownedCollections;
+        let newArr=[];
+        
+                  for (let i = 0; i < creatorCollections.length; i++) {
+                    try {
+                      const collectionId = creatorCollections[i];
+                      const collection = await Collection.findById(collectionId);
+                      newArr.push(collection.title);
+                    } 
+                    catch (error) {console.log('Erro no alteração de Id por title',error)}
+                  } 
+        creatorCollections = newArr;
+        console.log(creatorCollections)
+        console.log('before',creator.ownedCollections);
+        creator.ownedCollections = creatorCollections
+        console.log('after',creator.ownedCollections);
+        updatedCreators.push(creator)
+        //console.log('creator after change', creatorCollections);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    console.log(updatedCreators)
+    //res.render('navigation/creators', { creators: foundCreators });
+    res.send(foundCreators)
   } catch (error) {
     console.log(error);
     res.status(500).send('Internal Server Error');

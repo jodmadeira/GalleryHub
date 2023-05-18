@@ -1,6 +1,12 @@
-<h2>User Update</h2>
+<video autoplay muted loop id="background-video">
+     <source src="/video/backgroundvideo.mp4" type="video/mp4">
+</video>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <div class="profileInfo">
+    <div class="col-md-3 mb-4">
     <div class="userProfile">
+        <h2 class="insidethebox" style="text-align:center" >User Update</h2>
         <form class='infoBox' action="/profile/update" method="post"  enctype="multipart/form-data">
             <img src="{{user.imgSrc}}">
             <label>Name: </label>
@@ -17,4 +23,5 @@
             <button class='edit-btn' type="submit">Save Changes</button>
         </form>
     </div>
+</div>
 </div>

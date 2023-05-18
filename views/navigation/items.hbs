@@ -8,14 +8,22 @@
         <div class="card-body">
           <h5 class="card-name">{{title}}</h5>
           <p class="card-text">{{description}}</p>
+          
+          {{#ifEquals ../user._id ownerId}}
           <form action="/delete/item/{{_id}}" method="post">
-          <button type="submit" class="btn btn-primary">Delete Item</button></form>
+            <button type="submit" class="btn btn-primary">Delete Item</button>
+          </form>
+          {{/ifEquals}}
+
         </div>
       </div>
     </div>
-  {{else}}
-    <p>There are no items yet!</p>
+  
   {{/each}}
+
+  {{#ifEquals user._id collection.ownerId}}
   <a href="/create/item/{{collection._id}}" class="btn btn-primary">Create New Item</a>
+  {{/ifEquals}}
+ 
   <hr />
 </div>

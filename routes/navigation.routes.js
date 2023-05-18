@@ -184,11 +184,11 @@ router.get('/creators', async (req, res) => {
 // GET /navigation/Items
 router.get('/items/:id', async (req, res) => {
   const {id} = req.params;
-  //console.log(id);
+  const user = req.session.currentUser
   try {
     const collection = await Collection.findById(id).populate('collectionItems');
-    console.log(collection);
-    res.render('navigation/items', { collection });
+    
+    res.render('navigation/items', {user, collection });
   } catch (error) {
     console.log(error);
   }
@@ -210,13 +210,23 @@ router.get('/create/item/:id', async (req,res)=>{
 router.post('/create/item/:id', isLoggedIn, fileUploader.single('item-image'),(req,res)=>{
     const {title, description} = req.body;
     const {id} = req.params;
+
+    // Check that name, email, and password are provided
+  if (title === "" || description === "" || !req.file) {
+    res.status(400).render("navigation/itemscreate", {
+      errorMessage:
+        "All fields are mandatory. Please provide title, description and image.",
+    });
+
+    return;
+  }
+
     if(req.file){
         async function createItemInDb(){
             try{
                 const newItem = await Item.create({title, description, itemSrc: req.file.path});
                 await Item.findByIdAndUpdate(newItem._id, { $push: {collectionId: id}})
                 await Collection.findByIdAndUpdate(id, {$push: {collectionItems: newItem._id}})
-                console.log('Items created successfully');
                 res.redirect(`/items/${id}`);
             } 
             catch(error){

@@ -7,8 +7,12 @@
 
 <div class="centertwo">
     <div class="infoBox">
-
+        
+ 
         <form class="create-form" action="/create/item/{{collection._id}}" method="post" enctype="multipart/form-data">
+            {{#if errorMessage}}
+            <p class="error" style="color: red;" >{{errorMessage}}</p>
+            {{/if}}
             <div class="form-group">
                 <label>
                     Title:

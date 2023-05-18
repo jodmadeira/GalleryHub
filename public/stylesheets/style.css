@@ -13,6 +13,10 @@ a {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
+.insidethebox {
+  color: black;
+}
+
 .navbar {
   word-spacing: 20px;
   padding-left: 1%;
@@ -107,18 +111,14 @@ h1 {
   margin-top: 30px;
 }
 .userProfile{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-
-  padding: 10px 20px;
-  margin: 0;
-  
-
-  background-color: rgb(75, 74, 72);
-  border: 2px solid rgb(26, 26, 99);
+  width: 400px;
+  margin: 20 auto;
+  padding: 50px;
+  border: 0px solid #ccc;
   border-radius: 5px;
+  text-align: center;
+  background-color: #fff;
+  font-family: blippo;
 }
 
 .infoBox{
@@ -126,7 +126,7 @@ h1 {
   flex-direction: column;
   align-items:center;
   justify-content: end;
-  color: white;
+  color: black;
 
   font-family: monospace;
 
@@ -136,22 +136,44 @@ h1 {
 .infoBox img{
   width: 200px;
   height: 250px;
-
-  border-radius: 5px;
+  border-color: #87CEFA 2px;
+  border-radius: 10px;
 }
 .edit-btn{
   color: white;
   text-decoration: none;
-  font-family: Blippo;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;;
   text-align: center;
 
-  background-color: rgb(26, 26, 99);
+  background-color: #87CEFA;
   border-radius: 5px;
   border: 2px solid white;
 
 
   margin: 10px 20px;
   padding: 5px 10px;
+}
+
+.infoBox input[type="text"],
+.infoBox input[type="email"],
+.infoBox input[type="password"],
+.infoBox input[type="textarea"],
+.infoBox input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  }
+
+.infoBox textarea {
+  height: 100px;
+}
+
+.infoBox input[type="file"] {
+  padding: 0;
 }
 
 /*-------------------------- Video background home page ---------------------------*/
@@ -194,3 +216,4 @@ h1 {
   height: 25px;
   position: absolute;
 }
+

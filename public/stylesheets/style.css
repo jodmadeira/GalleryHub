@@ -22,11 +22,6 @@ a {
   color: #fff;
   text-align: center;
 }
-/* Ironhack2023mongodb
-ironhacker1
-8R8f7fONK7eekHmS
-
-mongodb+srv://ironhacker1:8R8f7fONK7eekHmS@galleryhubdb.lfzsjcn.mongodb.net/?retryWrites=true&w=majority*/
 .firstpage {
   display: flex;
   flex-direction: column;
@@ -110,6 +105,8 @@ h1 {
 .infoBox img{
   width: 200px;
   height: 250px;
+
+  border-radius: 5px;
 }
 .edit-btn{
   color: white;

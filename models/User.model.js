@@ -20,6 +20,7 @@ const userSchema = new Schema(
     },
     imgSrc:{
       type: String,
+      default: './images/default-user-img.png'
     }, 
     isCreator: {
       type: Boolean,

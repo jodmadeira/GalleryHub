@@ -64,6 +64,7 @@ a {
   position: relative;
   z-index: 1;
   color: #fff;
+  text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 }
 
 h1 {
@@ -117,7 +118,7 @@ h1 {
   border: 0px solid #ccc;
   border-radius: 5px;
   text-align: center;
-  background-color: #fff;
+  background-color: #ffffffa0;
   font-family: blippo;
 }
 
@@ -134,6 +135,7 @@ h1 {
   margin:0;
 }
 .infoBox img{
+  
   width: 200px;
   height: 250px;
   border-color: #87CEFA 2px;
@@ -148,7 +150,6 @@ h1 {
   background-color: #87CEFA;
   border-radius: 5px;
   border: 2px solid white;
-
 
   margin: 10px 20px;
   padding: 5px 10px;
@@ -191,23 +192,26 @@ h1 {
     }
 
 /*-------------------------- Collections ---------------------------*/
-.row {
-  padding-left: 3%;
-  padding-right: 3%;
-  
+.createPageTitle{
+  text-align: center;
+  margin-top: 30px;
 }
-
 .center {
   flex-direction: column;
   align-items:center;
-  padding-left: 650px;
+ 
 }
 
 .centertwo {
-  flex-direction: column;
-  align-items:center;
-  padding-left: 620px;
+  display: flex;
+  justify-content: center;
+  margin: 20px 30%;
 }
+ .create-form{
+  width: 60%;
+  font-size: larger;
+  
+ }
 
 /*-------------------------- Favourites ---------------------------*/
 

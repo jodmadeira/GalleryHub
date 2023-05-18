@@ -6,6 +6,7 @@ const User = require("../models/User.model");
 const Collection = require("../models/Collection.model");
 const Item = require("../models/Item.model");
 const fileUploader = require('../config/cloudinary.config.js');
+const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /navigations/collections
 router.get('/collections', async (req, res) => {
@@ -22,41 +23,6 @@ router.get('/collections', async (req, res) => {
   }
 });
 
-// GET new favourite
-router.get('/favourites', async (req, res) => {
-  const currentUser = req.session.currentUser._id;
-
-  try {
-    // Buscar a lista de favoritos do usuário atual e renderizar a página de favoritos
-    const user = await User.findById(currentUser).populate('favourites');
-
-    res.render('navigation/favourites', { favourites: user.favourites });
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('Error fetching favourites');
-  }
-});
-
-// POST new favourites
-router.post('/favourites/:id', async (req, res) => {
-  const currentUser = req.session.currentUser._id;
-  console.log(currentUser);
-  const collectionId = req.params.id;
-  console.log(collectionId);
-  try {
-    // Adicionar o ID da coleção aos favoritos do usuário atual
-    await User.findByIdAndUpdate(currentUser, { $push: { favourites: collectionId } });
-
-    // Adicionar o ID do usuário aos favoritos da coleção
-    await Collection.findByIdAndUpdate(collectionId, { $push: { favourites: currentUser } });
-
-    console.log('Favourites created successfully');
-    res.redirect('/collections');
-  } catch (error) {
-    console.log(error);
-    res.status(500).send('Error creating favourite');
-  }
-});
 
 // GET new collection
 router.get('/create', (req,res)=>{
@@ -64,7 +30,7 @@ router.get('/create', (req,res)=>{
 });
 
 // POST new collection
-router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
+router.post('/create', isLoggedIn, fileUploader.single('collection-image'),(req,res)=>{
     const {title, shortDescription} = req.body;
     const currentUser = req.session.currentUser._id
     async function createCollectionInDb(){
@@ -85,7 +51,7 @@ router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
 
 // POST route to delete an collection from the database
 
-router.post('/delete/collection/:id', (req, res) => {
+router.post('/delete/collection/:id', isLoggedIn, (req, res) => {
   const {id} = req.params
 
 async function deleteCollection(){
@@ -144,7 +110,7 @@ router.get("/edit/collection/:id", async (req, res) => {
 });
 
 // POST route to actually update a specific collection
-router.post('/edit/collection/:id', async (req, res)=>{
+router.post('/edit/collection/:id', isLoggedIn, async (req, res)=>{
     const id = req.params.id;
     const {title, shortDescription, coverImgSrc} = req.body;
 
@@ -241,7 +207,7 @@ router.get('/create/item/:id', async (req,res)=>{
 });
 
 // POST new Item
-router.post('/create/item/:id', fileUploader.single('item-image'),(req,res)=>{
+router.post('/create/item/:id', isLoggedIn, fileUploader.single('item-image'),(req,res)=>{
     const {title, description} = req.body;
     const {id} = req.params;
     if(req.file){
@@ -266,7 +232,7 @@ router.post('/create/item/:id', fileUploader.single('item-image'),(req,res)=>{
 
 // POST route to delete an item from the database
 
-router.post('/delete/item/:id', (req, res) => {
+router.post('/delete/item/:id', isLoggedIn, (req, res) => {
   const {id} = req.params
 async function deleteItem(){
   try {
@@ -290,18 +256,49 @@ deleteItem();
 });
 
 
+// GET new favourite
+router.get('/favourites', isLoggedIn ,async (req, res) => {
+  const currentUser = req.session.currentUser._id;
 
-// GET /navigation/favourites
-router.get("/favourites", (req, res) => {
-  res.render("navigation/favourites");
+  try {
+    // Buscar a lista de favoritos do usuário atual e renderizar a página de favoritos
+    const user = await User.findById(currentUser).populate('favourites');
+
+    res.render('navigation/favourites', { favourites: user.favourites });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error fetching favourites');
+  }
 });
 
+// POST new favourites
+router.post('/favourites/:id', isLoggedIn, async (req, res) => {
+  const currentUser = req.session.currentUser._id;
+  const collectionId = req.params.id;
+  try {
+    user = await User.findById(currentUser);
+    collection = await Collection.findById(collectionId);
 
-// GET /navigation/follows
-router.get("/follows", (req, res) => {
-  res.render("navigation/follows");
+    // Adicionar o ID da coleção aos favoritos do usuário atual
+    if(user.favourites.indexOf(collectionId)<0){
+      await User.findByIdAndUpdate(currentUser, { $push: { favourites: collectionId } });
+    } // Remover o ID da coleção dos favoritos do usuário atual
+    else if(user.favourites.indexOf(collectionId)>=0){
+      await User.findByIdAndUpdate(currentUser, { $pull: { favourites: collectionId } });
+    }
+
+    // Adicionar o ID do usuário aos favoritos da coleção
+    if(collection.favourites.indexOf(currentUser)<0){
+      await Collection.findByIdAndUpdate(collectionId, { $push: { favourites: currentUser } });
+    } // Remover o ID do usuário dos favoritos da coleção
+    else if(collection.favourites.indexOf(currentUser)>=0){
+      await Collection.findByIdAndUpdate(collectionId, { $pull: { favourites: currentUser } });
+    }
+    res.redirect('/collections');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error creating favourite');
+  }
 });
-
-
 
 module.exports = router;

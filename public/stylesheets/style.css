@@ -30,7 +30,7 @@ mongodb+srv://ironhacker1:8R8f7fONK7eekHmS@galleryhubdb.lfzsjcn.mongodb.net/?ret
 .firstpage {
   display: flex;
   flex-direction: column;
-  align-items:baseline;
+  align-items:center;
   justify-content: center;
   width: 100%;
   height: 70vh;

@@ -1,6 +1,12 @@
-<h2>Edit the collection</h2>
+<h2 style="text-align:center" >Edit the collection</h2>
+<video autoplay muted loop id="background-video">
+     <source src="/video/backgroundvideo.mp4" type="video/mp4">
+</video>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<div class="center">
 <div>
+<div class="col-md-3 mb-4">
 <form action="/edit/collection/{{collection._id}}" method="post" enctype="multipart/form-data">
     <label>Title:
         <input type="text" name="title" value="{{collection.title}}" class="form-control"/>
@@ -13,4 +19,7 @@
     </label>
     <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
+    </div>
+</div>
+</div>
 </div>

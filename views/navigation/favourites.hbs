@@ -1,1 +1,24 @@
-<h1>TESTE</h1>
+<h1>FAVOURITES</h1>
+<hr>
+<div class="row">
+  {{#each favourites}}
+    <div class="col-md-3 mb-4">
+      <div class="card">
+        <img src="{{this.coverImgSrc}}" class="card-img-top" alt="{{this.title}}">
+        <div class="card-body">
+          <h5 class="card-title">{{this.title}}</h5>
+          <p class="card-text">{{this.shortDescription}}</p>
+          <div class="row">
+          <a href="/items/{{this._id}}" class="btn btn-primary col-3">More</a>
+
+          {{#ifEquals ../user._id ownerId}}
+          <form action="/delete/favourites/{{_id}}" method="post" class="col-5" style="margin:0">
+          <button type="submit" class="btn btn-primary col-12">Delete</button></form>
+          {{/ifEquals}}
+          </div>
+        </div>
+      </div>
+    </div>
+{{!--   {{else}} --}}
+  {{/each}}
+</div>

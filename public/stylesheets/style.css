@@ -25,7 +25,7 @@ a {
 .firstpage {
   display: flex;
   flex-direction: column;
-  align-items:baseline;
+  align-items:center;
   justify-content: center;
   width: 100%;
   height: 70vh;

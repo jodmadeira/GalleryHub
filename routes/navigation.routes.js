@@ -22,6 +22,42 @@ router.get('/collections', async (req, res) => {
   }
 });
 
+// GET new favourite
+router.get('/favourites', async (req, res) => {
+  const currentUser = req.session.currentUser._id;
+
+  try {
+    // Buscar a lista de favoritos do usuário atual e renderizar a página de favoritos
+    const user = await User.findById(currentUser).populate('favourites');
+
+    res.render('navigation/favourites', { favourites: user.favourites });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error fetching favourites');
+  }
+});
+
+// POST new favourites
+router.post('/favourites/:id', async (req, res) => {
+  const currentUser = req.session.currentUser._id;
+  console.log(currentUser);
+  const collectionId = req.params.id;
+  console.log(collectionId);
+  try {
+    // Adicionar o ID da coleção aos favoritos do usuário atual
+    await User.findByIdAndUpdate(currentUser, { $push: { favourites: collectionId } });
+
+    // Adicionar o ID do usuário aos favoritos da coleção
+    await Collection.findByIdAndUpdate(collectionId, { $push: { favourites: currentUser } });
+
+    console.log('Favourites created successfully');
+    res.redirect('/collections');
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error creating favourite');
+  }
+});
+
 // GET new collection
 router.get('/create', (req,res)=>{
     res.render('navigation/collectionscreate');

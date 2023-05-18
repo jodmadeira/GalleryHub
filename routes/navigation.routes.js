@@ -171,9 +171,9 @@ router.get('/creators', async (req, res) => {
       }
     }
     console.log(updatedCreators)
-    //res.render('navigation/creators', { creators: foundCreators });
-    res.send(foundCreators)
-  } catch (error) {
+    res.render('navigation/creators', { creators: foundCreators });
+    }
+    catch(error){
     console.log(error);
     res.status(500).send('Internal Server Error');
   }

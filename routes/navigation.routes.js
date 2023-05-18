@@ -36,7 +36,6 @@ router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
     async function createCollectionInDb(){
         try{
            const newCollection = await Collection.create({title, shortDescription, coverImgSrc: req.file.path, ownerId:currentUser });
-/*             await Collection.findByIdAndUpdate(newCollection._id, { $push: {ownerId: currentUser}}) */
             await User.findByIdAndUpdate(currentUser, {isCreator: true})
             await User.findByIdAndUpdate(currentUser, {$push: {ownedCollections: newCollection._id}})
             console.log('Collection created successfully');
@@ -54,16 +53,36 @@ router.post('/create', fileUploader.single('collection-image'),(req,res)=>{
 
 router.post('/delete/collection/:id', (req, res) => {
   const {id} = req.params
+
 async function deleteCollection(){
   try {
-    //Find Items Ids that belong to the collection and user for loop to delete them
+    //Find Items Ids that belong to the collection and use for loop to delete them
+    //Save userId to update user status if necessary later
     const collection = await Collection.findById(id);
+    const userId = collection.ownerId;
+    
     const itemsId = collection.collectionItems;
     for(let i=0;i<itemsId.length;i++){
       await Item.findByIdAndDelete(itemsId[i])
     };
     // Delete collection after respective items have been deleted
     const deletedCollection = await Collection.findByIdAndDelete(id);
+    // Delete collection ID from user ownedCollections array
+    let user = await User.findById(userId);
+        console.log('user before update',user);
+    const userCollections = user.ownedCollections;
+        console.log('Before splice',userCollections);
+    userCollections.splice(userCollections.indexOf(id),1);
+        console.log('After splice',userCollections);
+    user = await User.findByIdAndUpdate(userId, {ownedCollections: userCollections});
+        console.log('user after update',user);
+    // Now we'll check if there are collections remaining for the Creator. If not, we'll change the isCreator to FALSE
+    user = await User.findById(userId);
+    const currentCollections = user.ownedCollections
+    if(!currentCollections.length){
+      await User.findByIdAndUpdate(userId,{isCreator: false})
+    };
+    
     if (!deletedCollection) {
       res.status(404).send('Collection not found');
       return;

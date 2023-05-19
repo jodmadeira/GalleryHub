@@ -3,7 +3,6 @@ const router = express.Router();
 //Require Mongoose
 const mongoose = require('mongoose')
 //Connect to the Database
-const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/GalleryHub";
 
 // Require necessary (isLoggedOut and isLoggedIn) middleware in order to control access to specific routes
 const isLoggedOut = require("../middleware/isLoggedOut");

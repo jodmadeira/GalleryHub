@@ -7,7 +7,7 @@ const Collection = require("../models/Collection.model");
 const Item = require("../models/Item.model");
 
 //Connect to the Database
-const MONGO_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/GalleryHub";
+const MONGO_URI =  "mongodb://127.0.0.1:27017/GalleryHub";
 
 
 const users = [

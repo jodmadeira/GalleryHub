@@ -7,7 +7,6 @@ const mongoose = require("mongoose");
 
 const MONGO_URI =
 `mongodb+srv://ironhacker1:${process.env.MONGODB_PASSWORD}@galleryhubdb.lfzsjcn.mongodb.net/?retryWrites=true&w=majority`
-|| process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/GalleryHub";
 mongoose
   .connect(MONGO_URI)
   .then((x) => {
